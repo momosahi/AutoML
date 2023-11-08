@@ -1,32 +1,32 @@
-import streamlit as st
-from pycaret import regression
-from pycaret import classification
-from pycaret import clustering
 import pickle
 import shap
+import streamlit as st
+import pandas as pd
 
 
-def create_classification(df):
-    """perform classification on the data using pycaret.
+def create_model(df, model_type):
+    """perform modeling on the data using pycaret.
 
     Parameters
     ----------
     df : pd.DataFrame
         the dataframe to be used for modeling
+    model_type : pycaret module
+        the pycaret module to be used for modeling
     """
     if df is None:
         st.error("Error: 'df' is not defined.")
     else:
         target = st.selectbox("Select your Target", df.columns)
-        classification.setup(df, target=target)
-        setup_df = classification.pull()
+        model_type.setup(df, target=target)
+        setup_df = model_type.pull()
         if "setup_df" in locals():
             st.info("ML Experiment setup")
             st.dataframe(setup_df)
         else:
             st.warning("No data available for display")
-        best_model = classification.compare_models()
-        compare_df = classification.pull()
+        best_model = model_type.compare_models()
+        compare_df = model_type.pull()
         if "compare_df" in locals():
             st.info("ML Model generated")
             st.dataframe(compare_df)
@@ -34,73 +34,7 @@ def create_classification(df):
             st.warning("No model to display.")
         if best_model is not None:
             try:
-                classification.save_model(best_model, "output/best_model")
-            except Exception as e:
-                st.error(f"Error saving the model: {str(e)}")
-
-
-def create_regression(df):
-    """Performs regression on the data using pycaret.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        the dataframe to be used for modeling
-    """
-    if df is None:
-        st.error("Error: 'df' is not defined.")
-    else:
-        target = st.selectbox("Select your Target", df.columns)
-        regression.setup(df, target=target)
-        setup_df = regression.pull()
-        if "setup_df" in locals():
-            st.info("ML Experiment setup")
-            st.dataframe(setup_df)
-        else:
-            st.warning("No data available for display")
-        best_model = regression.compare_models()
-        compare_df = regression.pull()
-        if "compare_df" in locals():
-            st.info("ML Model generated")
-            st.dataframe(compare_df)
-        else:
-            st.warning("No model to display.")
-        if best_model is not None:
-            try:
-                regression.save_model(best_model, "output/best_model")
-            except Exception as e:
-                st.error(f"Error saving the model: {str(e)}")
-
-
-def create_clustering(df):
-    """perform clustering on the data using pycaret.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        the dataframe to be used for modeling
-    """
-    if df is None:
-        st.error("Error: 'df' is not defined.")
-    else:
-        target = st.selectbox("Select your Target", df.columns)
-        clustering.setup(df, target=target)
-        setup_df = clustering.pull()
-        if "setup_df" in locals():
-            st.info("ML Experiment setup")
-            st.dataframe(setup_df)
-        else:
-            st.warning("No data available for display")
-        best_model = clustering.compare_models()
-        compare_df = clustering.pull()
-        if "compare_df" in locals():
-            st.info("ML Model generated")
-            st.dataframe(compare_df)
-        else:
-            st.warning("No model to display.")
-        if best_model is not None:
-            try:
-                clustering.save_model(best_model, "output/best_model")
+                model_type.save_model(best_model, "output/best_model")
             except Exception as e:
                 st.error(f"Error saving the model: {str(e)}")
 
@@ -110,19 +44,23 @@ def model_explanation():
     with open("output/best_model.pkl", "rb") as f:
         model = pickle.load(f)
 
-    # Assuming you have a DataFrame `X` for your features
-    # X = pd.DataFrame(...)
+    df = pd.read_csv("input/source_data.csv")
+    target = st.selectbox("Select your Target", df.columns)
+    X = df.drop(target, axis=1)
 
     # Get feature importance
     feature_importance = pd.DataFrame({"feature": X.columns, "importance": model.feature_importances_}).sort_values(
         "importance", ascending=False
     )
 
+    st.write("Feature Importance:")
+    st.dataframe(feature_importance)
+
     # Use SHAP to explain the model's predictions
     explainer = shap.TreeExplainer(model)
     shap_values = explainer.shap_values(X)
 
-    shap.summary_plot(shap_values, X, plot_type="bar")
+    st.pyplot(shap.summary_plot(shap_values, X, plot_type="bar"))
 
 
 def download_model():

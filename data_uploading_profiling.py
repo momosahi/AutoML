@@ -11,7 +11,7 @@ def upload_data():
     if file:
         if file.name.endswith(".csv"):
             df = pd.read_csv(file, index_col=None)
-            df.to_csv("output/sourceData.csv", index=None)
+            df.to_csv("input/source_data.csv", index=None)
             st.dataframe(df)
         else:
             st.error("Please upload a CSV file.")

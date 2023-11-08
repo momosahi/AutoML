@@ -1,9 +1,10 @@
 import os
 import streamlit as st
 import pandas as pd
+from pycaret import regression, classification, clustering
 
 from data_uploading_profiling import upload_data, data_profiling
-from model_creation import create_classification, create_regression, create_clustering, download_model
+from model_creation import create_model, download_model
 
 
 def main():
@@ -30,13 +31,13 @@ def main():
         st.title("Machine Learning Algo")
         task = st.radio("choose the ML task", ["Classification", "Regression", "Clustering"])
         if task == "Classification":
-            create_classification(df)
+            create_model(df, classification)
 
         if task == "Regression":
-            create_regression(df)
+            create_model(df, regression)
 
         if task == "Clustering":
-            create_clustering(df)
+            create_model(df, clustering)
 
     if choice == "Download":
         download_model()
@@ -45,9 +46,9 @@ def main():
 
 
 if __name__ == "__main__":
-    if os.path.exists("sourceData.csv"):
+    if os.path.exists("input/source_data.csv"):
         try:
-            df = pd.read_csv("sourceData.csv", index_col=None)
+            df = pd.read_csv("input/source_data.csv", index_col=None)
         except Exception as e:
             st.error(f"Error reading csv file: {str(e)}")
     main()
