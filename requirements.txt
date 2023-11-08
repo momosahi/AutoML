@@ -1,0 +1,6 @@
+pandas
+pycaret
+ydata_profiling
+pytest
+streamlit
+streamlit_pandas_profiling

@@ -1,0 +1,36 @@
+import pandas as pd
+import streamlit as st
+import ydata_profiling
+from streamlit_pandas_profiling import st_profile_report
+
+
+def upload_data():
+    """upload_data: Uploads the data to be used for modeling."""
+    st.title("Upload your data for modeling !")
+    file = st.file_uploader("Upload your dataset here")
+    if file:
+        if file.name.endswith(".csv"):
+            df = pd.read_csv(file, index_col=None)
+            df.to_csv("output/sourceData.csv", index=None)
+            st.dataframe(df)
+        else:
+            st.error("Please upload a CSV file.")
+
+
+def data_profiling(df):
+    """Generates a profile report of the data.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        the dataframe to be profiled
+    """
+    if not df.empty:
+        try:
+            with st.spinner("Generating profile report..."):
+                profile_report_df = ydata_profiling.ProfileReport(df)
+            st_profile_report(profile_report_df)
+        except Exception as e:
+            st.error(f"Error creating profile report: {str(e)}")
+    else:
+        st.warning("The dataframe is empty.")
