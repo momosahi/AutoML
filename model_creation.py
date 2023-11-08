@@ -4,16 +4,15 @@ import streamlit as st
 import pandas as pd
 
 
-def create_model(df, model_type):
+def create_model(model_type):
     """perform modeling on the data using pycaret.
 
     Parameters
     ----------
-    df : pd.DataFrame
-        the dataframe to be used for modeling
     model_type : pycaret module
         the pycaret module to be used for modeling
     """
+    df = pd.read_csv("input/source_data.csv")
     if df is None:
         st.error("Error: 'df' is not defined.")
     else:

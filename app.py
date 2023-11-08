@@ -4,7 +4,7 @@ import pandas as pd
 from pycaret import regression, classification, clustering
 
 from data_uploading_profiling import upload_data, data_profiling
-from model_creation import create_model, download_model
+from model_creation import create_model, model_explanation, download_model
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
     with st.sidebar:
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("AutoMLStream")
-        choice = st.radio("Navigation", ["Upload", "Profiling", "ML", "Download"])
+        choice = st.radio("Navigation", ["Upload", "Profiling", "ML", "Feature importance", "Download"])
         st.info("This application allows you to build automated Machine Learning pipeline using streamlit web app")
 
     if choice == "Upload":
@@ -25,19 +25,22 @@ def main():
 
     if choice == "Profiling":
         st.title("Automated Exploratory Data Analysis")
-        data_profiling(df)
+        data_profiling()
 
     if choice == "ML":
         st.title("Machine Learning Algo")
         task = st.radio("choose the ML task", ["Classification", "Regression", "Clustering"])
         if task == "Classification":
-            create_model(df, classification)
+            create_model(classification)
 
         if task == "Regression":
-            create_model(df, regression)
+            create_model(regression)
 
         if task == "Clustering":
-            create_model(df, clustering)
+            create_model(clustering)
+    if choice == "Feature importance":
+        st.title("Feature Importance")
+        model_explanation()
 
     if choice == "Download":
         download_model()

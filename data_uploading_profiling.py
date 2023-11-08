@@ -17,14 +17,9 @@ def upload_data():
             st.error("Please upload a CSV file.")
 
 
-def data_profiling(df):
-    """Generates a profile report of the data.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        the dataframe to be profiled
-    """
+def data_profiling():
+    """Generates a profile report of the data."""
+    df = pd.read_csv("input/source_data.csv")
     if not df.empty:
         try:
             with st.spinner("Generating profile report..."):
