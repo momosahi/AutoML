@@ -1,7 +1,7 @@
 import pickle
-import shap
 import streamlit as st
 import pandas as pd
+from pycaret.classification import plot_model
 
 
 def create_model(model_type):
@@ -50,15 +50,7 @@ def feature_importance():
     with open("output/best_model.pkl", "rb") as f:
         model = pickle.load(f)
 
-    df = pd.read_csv("input/source_data.csv")
-    target = st.selectbox("Select your Target", df.columns)
-    X = df.drop(target, axis=1)
-
-    # Use SHAP to explain the model's predictions
-    explainer = shap.TreeExplainer(model)
-    shap_values = explainer.shap_values(X)
-
-    st.pyplot(shap.summary_plot(shap_values, X, plot_type="bar"))
+    plot_model(model, plot="feature")
 
 
 def download_model():
