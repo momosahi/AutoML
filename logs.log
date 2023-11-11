@@ -41079,3 +41079,11 @@ dtype: int64}],
 2023-11-11 11:24:55,157:INFO:interpret_model(estimator=['JoiningYear' 'PaymentTier' 'Age' 'ExperienceInCurrentDomain'], use_train_data=False, X_new_sample=None, y_new_sample=None, feature=None, kwargs={}, observation=None, plot=summary, save=False, self=<pycaret.classification.oop.ClassificationExperiment object at 0x284d943d0>)
 2023-11-11 11:24:55,157:INFO:Checking exceptions
 2023-11-11 11:24:55,157:INFO:Soft dependency imported: shap: 0.43.0
+2023-11-11 11:33:05,821:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2023-11-11 11:33:05,822:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2023-11-11 11:33:05,822:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.
+2023-11-11 11:33:05,822:WARNING:
+'cuml' is a soft dependency and not included in the pycaret installation. Please run: `pip install cuml` to install.

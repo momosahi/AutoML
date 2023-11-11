@@ -17,7 +17,7 @@ def main():
     with st.sidebar:
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("AutoMLStream")
-        choice = st.radio("Navigation", ["Upload", "Profiling", "ML", "Feature importance", "Download"])
+        choice = st.radio("Navigation", ["Upload", "Profiling", "ML", "Prediction", "Download"])
         st.info("This application allows you to build automated Machine Learning pipeline using streamlit web app")
 
     if choice == "Upload":
