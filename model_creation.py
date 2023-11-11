@@ -1,7 +1,7 @@
 import pickle
 import streamlit as st
 import pandas as pd
-from pycaret.classification import plot_model
+from pycaret.classification import interpret_model
 
 
 def create_model(model_type):
@@ -39,18 +39,11 @@ def create_model(model_type):
 
 
 def feature_importance():
-    """Explain the model's predictions using SHAP values.
-
-    Parameters
-    ----------
-    model_type : pycaret module
-        the pycaret module to be used for modeling
-
-    """
+    """Explain the model's predictions using SHAP values."""
     with open("output/best_model.pkl", "rb") as f:
         model = pickle.load(f)
 
-    plot_model(model, plot="feature")
+    interpret_model(model)
 
 
 def download_model():
