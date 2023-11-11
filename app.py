@@ -4,7 +4,7 @@ import pandas as pd
 from pycaret import regression, classification, clustering
 
 from data_uploading_profiling import upload_data, data_profiling
-from model_creation import create_model, feature_importance, download_model
+from model_creation import create_model, predict, download_model
 
 
 def main():
@@ -38,9 +38,9 @@ def main():
 
         if task == "Clustering":
             create_model(clustering)
-    if choice == "Feature importance":
-        st.title("Feature Importance")
-        feature_importance()
+    if choice == "Prediction":
+        st.title("Prediction")
+        predict()
 
     if choice == "Download":
         download_model()
