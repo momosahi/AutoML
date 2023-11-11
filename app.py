@@ -45,7 +45,7 @@ def main():
     if choice == "Download":
         download_model()
 
-    return df  # Return df at the end of the function
+    return df
 
 
 if __name__ == "__main__":
