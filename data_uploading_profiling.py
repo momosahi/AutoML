@@ -1,7 +1,7 @@
-import pandas as pd
-import streamlit as st
-import ydata_profiling
-from streamlit_pandas_profiling import st_profile_report
+import pandas as pd  # type: ignore
+import streamlit as st  # type: ignore
+import ydata_profiling  # type: ignore
+from streamlit_pandas_profiling import st_profile_report  # type: ignore
 
 
 def upload_data():

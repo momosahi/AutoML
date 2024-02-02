@@ -1,7 +1,7 @@
 import os
-import streamlit as st
-import pandas as pd
-from pycaret import regression, classification, clustering
+import streamlit as st  # type: ignore
+import pandas as pd  # type: ignore
+from pycaret import regression, classification, clustering  # type: ignore
 
 from data_uploading_profiling import upload_data, data_profiling
 from model_creation import create_model, predict, download_model
