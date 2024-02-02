@@ -1,6 +1,6 @@
 pandas
 pycaret
-ydata_profiling
+ydata-profiling==4.6.4
 pytest
 streamlit
 streamlit_pandas_profiling
