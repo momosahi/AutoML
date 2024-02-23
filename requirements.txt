@@ -5,3 +5,4 @@ pytest
 streamlit
 streamlit_pandas_profiling
 shap
+pylint
