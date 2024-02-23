@@ -9,10 +9,8 @@ import streamlit as st  # type: ignore
 from ydata_profiling import ProfileReport  # type: ignore
 from streamlit_pandas_profiling import st_profile_report  # type: ignore
 
-SOURCE_DATA_PATH = "../input/source_data.csv"
 
-
-def upload_data() -> pd.DataFrame:
+def upload_data(file_path: str) -> pd.DataFrame:
     """Uploads data from a csv file."""
     st.title("Upload Data")
     file = st.file_uploader("Upload a csv file", type=["csv"])
@@ -20,7 +18,7 @@ def upload_data() -> pd.DataFrame:
         try:
             df = pd.read_csv(file)
             st.dataframe(df)
-            save_data(df)
+            save_data(df, file_path)
             return df
         except FileNotFoundError as e:
             st.error(f"Error reading csv file: {str(e)}")
@@ -32,9 +30,9 @@ def load_data(file_path: str) -> pd.DataFrame:
     return pd.read_csv(file_path)
 
 
-def save_data(df: pd.DataFrame) -> None:
+def save_data(df: pd.DataFrame, file_path: str) -> None:
     """Saves the dataframe to a csv file."""
-    df.to_csv(SOURCE_DATA_PATH, index=False)
+    df.to_csv(file_path, index=False)
     st.success("Data saved successfully.")
 
 
