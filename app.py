@@ -1,15 +1,17 @@
 import os
+
+import pandas as pd
 import streamlit as st  # type: ignore
 from pycaret import regression, classification, clustering  # type: ignore
 
-from data_uploading_profiling import upload_data, data_profiling, load_data
-from model_creation import create_model
+from src.data_uploading_profiling import upload_data, data_profiling, load_data
+from src.model_creation import create_model
 
 SOURCE_DATA_PATH = "input/source_data.csv"
 OUTPUT_MODEL_PATH = "output/best_model"
 
 
-def handle_upload():
+def handle_upload() -> pd.DataFrame:
     return upload_data()
 
 
@@ -20,7 +22,9 @@ def handle_profiling(file_path: str = SOURCE_DATA_PATH):
 
 def handle_ml(input_data_path: str, output_model_path: str):
     st.title("Machine Learning Algo")
-    task = st.radio("choose the ML task", ["Classification", "Regression", "Clustering"])
+    task = st.radio(
+        "choose the ML task", ["Classification", "Regression", "Clustering"]
+    )
     if task == "Classification":
         create_model(classification, input_data_path, output_model_path)
     elif task == "Regression":
@@ -42,13 +46,17 @@ def main():
     This is the main function of the AutoMLStream application.
     It allows users to navigate through different options and perform various tasks.
     """
-    df = None
+    df: pd.DataFrame = pd.DataFrame()
 
     with st.sidebar:
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("AutoMLStream")
-        choice = st.radio("Navigation", ["Upload", "Profiling", "ML", "Prediction", "Download"])
-        st.info("This application allows you to build automated Machine Learning pipeline using streamlit web app")
+        choice = st.radio(
+            "Navigation", ["Upload", "Profiling", "ML", "Prediction", "Download"]
+        )
+        st.info(
+            "This application allows you to build automated Machine Learning pipeline using streamlit web app"
+        )
 
     if choice == "Upload":
         df = handle_upload()
@@ -73,6 +81,6 @@ if __name__ == "__main__":
     if os.path.exists(SOURCE_DATA_PATH):
         try:
             df = load_data(SOURCE_DATA_PATH)
-        except Exception as e:
+        except FileExistsError as e:
             st.error(f"Error reading csv file: {str(e)}")
     main()
