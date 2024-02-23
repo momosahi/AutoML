@@ -11,11 +11,11 @@ SOURCE_DATA_PATH = "input/source_data.csv"
 OUTPUT_MODEL_PATH = "output/best_model"
 
 
-def handle_upload() -> pd.DataFrame:
+def handle_upload(file_path: str) -> pd.DataFrame:
     """This function handles the data uploading process.
     It allows users to upload a csv file and returns a pandas DataFrame.
     """
-    return upload_data()
+    return upload_data(file_path)
 
 
 def handle_profiling(file_path: str = SOURCE_DATA_PATH):
@@ -29,7 +29,9 @@ def handle_profiling(file_path: str = SOURCE_DATA_PATH):
 def handle_ml(input_data_path: str, output_model_path: str):
     """This function handles the machine learning process."""
     st.title("Machine Learning Algo")
-    task = st.radio("choose the ML task", ["Classification", "Regression", "Clustering"])
+    task = st.radio(
+        "choose the ML task", ["Classification", "Regression", "Clustering"]
+    )
     if task == "Classification":
         create_model(classification, input_data_path, output_model_path)
     elif task == "Regression":
@@ -56,11 +58,15 @@ def main():
     with st.sidebar:
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("AutoMLStream")
-        choice = st.radio("Navigation", ["Upload", "Profiling", "ML", "Prediction", "Download"])
-        st.info("This application allows you to build automated Machine Learning pipeline using streamlit web app")
+        choice = st.radio(
+            "Navigation", ["Upload", "Profiling", "ML", "Prediction", "Download"]
+        )
+        st.info(
+            "This application allows you to build automated Machine Learning pipeline using streamlit web app"
+        )
 
     if choice == "Upload":
-        df = handle_upload()
+        df = handle_upload(SOURCE_DATA_PATH)
 
     if choice == "Profiling":
         st.title("Automated Exploratory Data Analysis")
