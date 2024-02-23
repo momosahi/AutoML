@@ -1,10 +1,40 @@
 import os
 import streamlit as st  # type: ignore
-import pandas as pd  # type: ignore
 from pycaret import regression, classification, clustering  # type: ignore
 
-from data_uploading_profiling import upload_data, data_profiling
-from model_creation import create_model, predict, download_model
+from data_uploading_profiling import upload_data, data_profiling, load_data
+from model_creation import create_model
+
+SOURCE_DATA_PATH = "input/source_data.csv"
+OUTPUT_MODEL_PATH = "output/best_model"
+
+
+def handle_upload():
+    return upload_data()
+
+
+def handle_profiling(file_path: str = SOURCE_DATA_PATH):
+    st.title("Automated Exploratory Data Analysis")
+    data_profiling(file_path)
+
+
+def handle_ml(input_data_path: str, output_model_path: str):
+    st.title("Machine Learning Algo")
+    task = st.radio("choose the ML task", ["Classification", "Regression", "Clustering"])
+    if task == "Classification":
+        create_model(classification, input_data_path, output_model_path)
+    elif task == "Regression":
+        create_model(regression, input_data_path, output_model_path)
+    elif task == "Clustering":
+        create_model(clustering, input_data_path, output_model_path)
+
+
+def handle_prediction():
+    pass
+
+
+def handle_download():
+    pass
 
 
 def main():
@@ -21,37 +51,28 @@ def main():
         st.info("This application allows you to build automated Machine Learning pipeline using streamlit web app")
 
     if choice == "Upload":
-        df = upload_data()
+        df = handle_upload()
 
     if choice == "Profiling":
         st.title("Automated Exploratory Data Analysis")
-        data_profiling()
+        handle_profiling()
 
     if choice == "ML":
-        st.title("Machine Learning Algo")
-        task = st.radio("choose the ML task", ["Classification", "Regression", "Clustering"])
-        if task == "Classification":
-            create_model(classification)
+        handle_ml(SOURCE_DATA_PATH, OUTPUT_MODEL_PATH)
 
-        if task == "Regression":
-            create_model(regression)
-
-        if task == "Clustering":
-            create_model(clustering)
     if choice == "Prediction":
-        st.title("Prediction")
-        predict()
+        handle_prediction()
 
     if choice == "Download":
-        download_model()
+        handle_download()
 
     return df
 
 
 if __name__ == "__main__":
-    if os.path.exists("input/source_data.csv"):
+    if os.path.exists(SOURCE_DATA_PATH):
         try:
-            df = pd.read_csv("input/source_data.csv", index_col=None)
+            df = load_data(SOURCE_DATA_PATH)
         except Exception as e:
             st.error(f"Error reading csv file: {str(e)}")
     main()
