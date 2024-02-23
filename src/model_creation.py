@@ -6,7 +6,7 @@ This module contains the functions to create a model using pycaret.
 
 import streamlit as st  # type: ignore
 import pandas as pd  # type: ignore
-from data_uploading_profiling import load_data
+from src.data_uploading_profiling import load_data
 
 
 def select_target_variable(df: pd.DataFrame):
