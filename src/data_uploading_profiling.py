@@ -9,7 +9,7 @@ import streamlit as st  # type: ignore
 from ydata_profiling import ProfileReport  # type: ignore
 from streamlit_pandas_profiling import st_profile_report  # type: ignore
 
-SOURCE_DATA_PATH = "input/source_data.csv"
+SOURCE_DATA_PATH = "../input/source_data.csv"
 
 
 def upload_data() -> pd.DataFrame:
@@ -22,7 +22,7 @@ def upload_data() -> pd.DataFrame:
             st.dataframe(df)
             save_data(df)
             return df
-        except Exception as e:
+        except FileExistsError as e:
             st.error(f"Error reading csv file: {str(e)}")
     return pd.DataFrame()
 
