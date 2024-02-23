@@ -45,7 +45,7 @@ def save_best_model(model_type, best_model, output_path: str):
         try:
             model_type.save_model(best_model, output_path)
             st.success("Best model saved successfully.")
-        except Exception as e:
+        except FileNotFoundError as e:
             st.error(f"Error saving best model: {str(e)}")
 
 

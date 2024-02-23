@@ -22,7 +22,7 @@ def upload_data() -> pd.DataFrame:
             st.dataframe(df)
             save_data(df)
             return df
-        except FileExistsError as e:
+        except FileNotFoundError as e:
             st.error(f"Error reading csv file: {str(e)}")
     return pd.DataFrame()
 
