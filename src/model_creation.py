@@ -58,3 +58,8 @@ def create_model(model_type, input_data_path: str, output_model_path: str):
     setup_experiment(model_type, df, target)
     best_model = compare_models(model_type)
     save_best_model(model_type, best_model, output_model_path)
+    return best_model
+
+
+def prediction():
+    pass
