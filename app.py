@@ -22,16 +22,13 @@ def handle_profiling(file_path: str = SOURCE_DATA_PATH):
     """This function handles the data profiling process.
     parameters: file_path: str
     """
-    st.title("Automated Exploratory Data Analysis")
     data_profiling(file_path)
 
 
 def handle_ml(input_data_path: str, output_model_path: str):
     """This function handles the machine learning process."""
     st.title("Machine Learning Algo")
-    task = st.radio(
-        "choose the ML task", ["Classification", "Regression", "Clustering"]
-    )
+    task = st.radio("choose the ML task", ["Classification", "Regression", "Clustering"])
     if task == "Classification":
         create_model(classification, input_data_path, output_model_path)
     elif task == "Regression":
@@ -58,12 +55,8 @@ def main():
     with st.sidebar:
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("AutoMLStream")
-        choice = st.radio(
-            "Navigation", ["Upload", "Profiling", "ML", "Prediction", "Download"]
-        )
-        st.info(
-            "This application allows you to build automated Machine Learning pipeline using streamlit web app"
-        )
+        choice = st.radio("Navigation", ["Upload", "Profiling", "ML", "Prediction", "Download"])
+        st.info("This application allows you to build automated Machine Learning pipeline using streamlit web app")
 
     if choice == "Upload":
         df = handle_upload(SOURCE_DATA_PATH)
